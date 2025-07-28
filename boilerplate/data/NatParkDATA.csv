@@ -1,0 +1,62 @@
+﻿unit_code,unit_name,unit_type,nps_region,scalerank,featurecla,Visited,name
+HAVO,Hawai'i Volcanoes NP,National Park,Pacific West,3,National Park Service,,Hawai'i Volcanoes
+CANA,Canaveral NS,National Seashore,Southeast,5,National Park Service,,Canaveral NS
+SAMO,Santa Monica Mountains NRA,National Recreation Area,Pacific West,8,National Park Service,,Santa Monica Mountains
+CHIS,Channel Islands NP,National Park,Pacific West,5,National Park Service,,Channel Islands
+PORE,Point Reyes NS,National Seashore,Pacific West,5,National Park Service,,Point Reyes
+REDW,Redwood NP,National Park,Pacific West,3,National Park Service,,Redwood
+OLYM,Olympic NP,National Park,Pacific West,3,National Park Service,,Olympic
+MOJA,Mojave N PRES,National Preserve,Pacific West,4,National Park Service,,Mojave N PRES
+JOTR,Joshua Tree NP,National Park,Pacific West,3,National Park Service,Y,Joshua Tree
+BADL,Badlands NP,National Park,Midwest,3,National Park Service,,Badlands
+ZION,Zion NP,National Park,Intermountain,3,National Park Service,Y,Zion
+PEFO,Petrified Forest NP,National Park,Intermountain,3,National Park Service,,Petrified Forest
+GRTE,Grand Teton NP,National Park,Intermountain,3,National Park Service,Y,Grand Teton
+YUCH,Yukon-Charley Rivers N PRES,National Preserve,Alaska,4,National Park Service,,Yukon-Charley Rivers N PRES
+NOAT,Noatak N PRES,National Preserve,Alaska,4,National Park Service,,Noatak N PRES
+KOVA,Kobuk Valley NP,National Park,Alaska,3,National Park Service,,Kobuk Valley
+SEQU,Sequoia  NP,National Park,Pacific West,3,National Park Service,Y,Sequoia
+KICA,Kings Canyon NP,National Park,Pacific West,4,National Park Service,Y,Kings Canyon
+YELL,Yellowstone NP,National Park,Intermountain,3,National Park Service,Y,Yellowstone
+LAVO,Lassen Volcanic NP,National Park,Pacific West,5,National Park Service,,Lassen Volcanic
+WHSA,White Sands NM,National Monument,Intermountain,5,National Park Service,,White Sands NM
+ORPI,Organ Pipe Cactus NM,National Monument,Intermountain,5,National Park Service,,Organ Pipe Cactus NM
+GRSA,Great Sand Dunes NP & PRES,National Park and Preserve,Intermountain,5,National Park Service,,Great Sand Dunes
+YOSE,Yosemite NP,National Park,Pacific West,3,National Park Service,Y,Yosemite
+SHEN,Shenandoah NP,National Park,Northeast,3,National Park Service,,Shenandoah
+ROLA,Ross Lake NRA,National Recreation Area,Pacific West,5,National Park Service,,Ross Lake NRA
+ROMO,Rocky Mountain NP,National Park,Intermountain,3,National Park Service,Y,Rocky Mountain
+NOCA,North Cascades NP,National Park,Pacific West,3,National Park Service,,North Cascades
+MORA,Mount Rainier NP,National Park,Pacific West,3,National Park Service,,Mount Rainier
+LACH,Lake Chelan NRA,National Recreation Area,Pacific West,5,National Park Service,,Lake Chelan NRA
+GRSM,Great Smoky Mountains NP,National Park,Southeast,3,National Park Service,Y,Great Smoky Mountains
+ELMA,El Malpais NM,National Monument,Intermountain,5,National Park Service,,El Malpais NM
+DINO,Dinosaur NM,National Monument,Intermountain,4,National Park Service,,Dinosaur NM
+DEVA,Death Valley NP,National Park,Pacific West,3,National Park Service,Y,Death Valley
+CRMO,Craters of the Moon NM & PRES,National Monument and Preserve,Pacific West,4,National Park Service,,Craters of the Moon NM & PRES
+CRLA,Crater Lake NP,National Park,Pacific West,3,National Park Service,,Crater Lake
+CARE,Capitol Reef NP,National Park,Intermountain,3,National Park Service,,Capitol Reef
+CANY,Canyonlands NP,National Park,Intermountain,5,National Park Service,,Canyonlands
+BISO,Big South Fork NRRA,National River and Recreation Area,Southeast,5,National Park Service,,Big South Fork NRRA
+BICY,Big Cypress N PRES,National Preserve,Southeast,4,National Park Service,Y,Big Cypress N PRES
+ANIA,Aniakchak NM & PRES,National Monument and Preserve,Alaska,4,National Park Service,,Aniakchak NM & PRES
+KATM,Katmai NP & PRES,National Park and Preserve,Alaska,3,National Park Service,,Katmai
+LACL,Lake Clark NP & PRES,National Park and Preserve,Alaska,3,National Park Service,,Lake Clark
+KEFJ,Kenai Fjords NP,National Park,Alaska,3,National Park Service,,Kenai Fjords
+BELA,Bering Land Bridge N PRES,National Preserve,Alaska,4,National Park Service,,Bering Land Bridge N PRES
+CAKR,Cape Krusenstern NM,National Monument,Alaska,4,National Park Service,,Cape Krusenstern NM
+WRST,Wrangell-St. Elias NP & PRES,National Park and Preserve,Alaska,3,National Park Service,,Wrangell-St. Elias
+GLBA,Glacier Bay NP & PRES,National Park and Preserve,Alaska,3,National Park Service,,Glacier Bay
+BIBE,Big Bend NP,National Park,Intermountain,3,National Park Service,,Big Bend
+EVER,Everglades NP,National Park,Southeast,3,National Park Service,Y,Everglades
+SLBE,Sleeping Bear Dunes NL,National Lakeshore,Midwest,5,National Park Service,,Sleeping Bear Dunes NL
+PIRO,Pictured Rocks NL,National Lakeshore,Midwest,5,National Park Service,,Pictured Rocks NL
+ISRO,Isle Royale NP,National Park,Midwest,5,National Park Service,,Isle Royale
+VOYA,Voyageurs NP,National Park,Midwest,5,National Park Service,,Voyageurs
+BICA,Bighorn Canyon NRA,National Recreation Area,Intermountain,5,National Park Service,,Bighorn Canyon NRA
+LAME,Lake Mead NRA,National Recreation Area,Pacific West,4,National Park Service,,Lake Mead NRA
+GRCA,Grand Canyon NP,National Park,Intermountain,3,National Park Service,,Grand Canyon
+GLCA,Glen Canyon NRA,National Recreation Area,Intermountain,4,National Park Service,,Glen Canyon NRA
+GAAR,Gates of the Arctic NP & PRES,National Park and Preserve,Alaska,3,National Park Service,,Gates of the Arctic
+DENA,Denali NP & PRES,National Park and Preserve,Alaska,3,National Park Service,,Denali
+GLAC,Glacier NP,National Park,Intermountain,3,National Park Service,Y,Glacier
