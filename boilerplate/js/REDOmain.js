@@ -37,7 +37,7 @@ var projection = d3.geoConicEqualArea()
 //use Promise.all to load all data Example 2.1
     var promises = [];   
     promises.push(d3.csv("data/NatParkDATA.csv"));                    
-    promises.push(d3.json("data/NatParkpoly.topojson"));
+    promises.push(d3.json("data/NatParkpolyRANK.topojson"));
     promises.push(d3.json("data/worldmap.topojson"));                                      
     Promise.all(promises).then(callback);
  
@@ -79,15 +79,15 @@ var projection = d3.geoConicEqualArea()
         //console.log(csvData);
         //console.log(natparks);
 
-//console.log("Available TopoJSON objects:", Object.keys(natparks.objects));
-//console.log("Worldmap keys:", Object.keys(worldmap.objects));
+        console.log("Available TopoJSON objects:", Object.keys(natparks.objects));
+        console.log("Worldmap keys:", Object.keys(worldmap.objects));
 
  //translate the natparks TopoJSON Example 1.5
-        var natParkpoly = topojson.feature(natparks, natparks.objects["ne_10m_parks_and_protected_lands_area"]);
+        var natParkpoly = topojson.feature(natparks, natparks.objects["ne_10m_parks_and_protected_lands_scale_rank"]);
         var worldmap = topojson.feature(worldmap, worldmap.objects["ne_10m_admin_1_states_provinces"]);
 
-//console.log("Feature count:", natParkpoly.features.length);
-//console.log("Feature count:", worldmap.features.length);
+console.log("Feature count:", natParkpoly.features.length);
+console.log("Feature count:", worldmap.features.length);
 
 //Example 2.3
         map.selectAll(".country")
