@@ -1,12 +1,3 @@
-//lesson 9
-//this places everything in a self-executing anonymous function to move to local scope
-(function(){
-
-//pseudo-global variables
-var attrArray = ["varA", "varB", "varC", "varD", "varE"]; //list of attributes
-var expressed = attrArray[0]; //initial attribute
-
-
 window.onload = setMap();
 
 //settingup the up choropleth map Example 1.3
@@ -121,4 +112,3 @@ var projection = d3.geoConicEqualArea()
         //console.log("First path 'd' attribute:", document.querySelector("path")?.getAttribute("d"));
     }
     };
-    })();
