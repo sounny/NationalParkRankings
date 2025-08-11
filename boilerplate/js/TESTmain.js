@@ -1,6 +1,5 @@
 (function(){
 
-
 //Pseudo-global variables
 
 //My data only really has 2 attributes
@@ -56,40 +55,38 @@ function setMap(){
     promises.push(d3.json("data/worldmap.topojson"));                                      
     Promise.all(promises).then(callback);
 
-function callback(data) {
-    var csvData = data[0],
-        natparks = data[1],
-        worldmapData = data[2];
+    function callback(data) {
+        var csvData = data[0],
+            natparks = data[1],
+            worldmapData = data[2];
 
-    setGraticule(map, path);
+        setGraticule(map, path);
 
-    var natParkpoly = topojson.feature(natparks, natparks.objects["ne_10m_parks_and_protected_lands_scale_rank"]);
-    var worldmap = topojson.feature(worldmapData, worldmapData.objects["ne_10m_admin_1_states_provinces"]);
+        var natParkpoly = topojson.feature(natparks, natparks.objects["ne_10m_parks_and_protected_lands_scale_rank"]);
+        var worldmap = topojson.feature(worldmapData, worldmapData.objects["ne_10m_admin_1_states_provinces"]);
 
-    map.selectAll(".country")
-        .data(worldmap.features)
-        .enter()
-        .append("path")
-        .attr("class", "country")
-        .attr("d", path);
+        map.selectAll(".country")
+            .data(worldmap.features)
+            .enter()
+            .append("path")
+            .attr("class", "country")
+            .attr("d", path);
 
-    natParkpoly.features = joinData(natParkpoly.features, csvData);
+        natParkpoly.features = joinData(natParkpoly.features, csvData);
 
-    natParkpoly.features.forEach(f => {
+        natParkpoly.features.forEach(f => {
+//console.log(f.properties.name, "Visited:", f.properties.Visited);
+        });
 
-console.log(f.properties.name, "Visited:", f.properties.Visited);
+        var colorScale = makeColorScale(csvData);
 
-    });
-
-    var colorScale = makeColorScale(csvData);
-
-    setEnumerationUnits(natParkpoly.features, map, path, colorScale);
+        setEnumerationUnits(natParkpoly.features, map, path, colorScale);
 
 //first creation of bar chart
-    barChart = setChart(csvData, colorScale);
+        barChart = setChart(csvData, colorScale);
 
-    createDropdown(csvData);
-}
+        createDropdown(csvData);
+    }
 };
 
 
@@ -129,8 +126,8 @@ function joinData(geojsonFeatures, csvData){
                         val = parseFloat(csvRegion[attr]);
                     } else {
                         val = csvRegion[attr];
-}
-geojsonProps[attr] = val;
+                    }
+                    geojsonProps[attr] = val;
                 });
             }
         }
@@ -154,24 +151,39 @@ function makeColorScale(data){
     }
 }
 
+//Highlight, Dehighlight and the mouse labels
 
 function setEnumerationUnits(features, map, path, colorScale){
-    map.selectAll(".regions")
+    var polygons = map.selectAll(".regions")
         .data(features)
         .enter()
         .append("path")
         .attr("class", function(d){
-            return "regions " + d.properties.name;
-        })
+    var safeName = d.properties.name
+        .replace(/\s+/g, '-')    // spaces to hyphens
+        .replace(/\./g, '')      // remove dots
+        .replace(/'/g, '')       // remove apostrophes
+        .replace(/,/g, '')       // remove commas
+        .replace(/&/g, 'and');  // replace & with 'and'
+    return "regions " + safeName;
+})
         .attr("d", path)
         .style("fill", function(d){
             var value = d.properties[expressed];
             return value ? colorScale(value) : colorScale(null);
+        })
+        .on("mouseover", function(event, d){
+            highlight(d.properties);
+        })
+        .on("mouseout", function(event, d){
+            dehighlight(d.properties);
         });
+        
+    // Raise polygons so they stay on top for interaction
+    polygons.raise();
 };
 
 
-// Bar chart
 
 function setChart(csvData, colorScale){
     var chart = d3.select("body")
@@ -218,9 +230,24 @@ function setChart(csvData, colorScale){
         .attr("x", function(d, i){ return i * (chartInnerWidth / csvData.length) + leftPadding; })
         .attr("height", function(d){ return chartInnerHeight - yScale(parseFloat(d[expressed])); })
         .attr("y", function(d){ return yScale(parseFloat(d[expressed])) + topBottomPadding; })
-        .style("fill", function(d){ return colorScale(d[expressed]); });
+        .style("fill", function(d){ return colorScale(d[expressed]); })
+        // Add <desc> for original bar style
+        .append("desc")
+        .text('{"stroke": "none", "stroke-width": "0px"}')
+        .each(function(d){
+            d3.select(this.parentNode)
+                .style("stroke", "none")
+                .style("stroke-width", "0px");
+        })
+        .on("mouseover", function(event, d){
+            highlight(d);
+        })
+        .on("mouseout", function(event, d){
+            dehighlight(d);
+        })
+        .on("mousemove", moveLabel);
 
-    // Park names on bars I still can't figure out how to make them look better
+    // Park names on bars
     chart.selectAll(".barLabel")
         .data(csvData)
         .enter()
@@ -245,14 +272,96 @@ function setChart(csvData, colorScale){
 
     return chart;
 }
+//Highlight, Remove highlight and mouse label
+//Had to reword the names of the labels because of the spaces and special characters
+    function highlight(props){
+    var safeName = props.name
+        .replace(/\s+/g, '-')    
+        .replace(/\./g, '')      
+        .replace(/'/g, '')       
+        .replace(/,/g, '')       
+        .replace(/&/g, 'and');  
+
+    d3.selectAll(".regions." + safeName)
+      .style("stroke", "blue")
+      .style("stroke-width", "3px");
+}
+
+function dehighlight(props){
+    var safeName = props.name
+        .replace(/\s+/g, '-')    
+        .replace(/\./g, '')      
+        .replace(/'/g, '')       
+        .replace(/,/g, '')       
+        .replace(/&/g, 'and'); 
+
+    var selected = d3.selectAll(".regions." + safeName)
+        .style("stroke", function(){
+            return getStyle(this, "stroke") || null;
+        })
+        .style("stroke-width", function(){
+            return getStyle(this, "stroke-width") || null;
+        });
+
+    d3.select(".infolabel").remove();
+}
+
+function getStyle(element, styleName){
+    var descSelection = d3.select(element).select("desc");
+    var styleText = descSelection.empty() ? null : descSelection.text();
+
+    if (!styleText) {
+        return null;
+    }
+
+    try {
+        var styleObject = JSON.parse(styleText);
+        return styleObject[styleName];
+    } catch(e) {
+        console.warn("Invalid JSON in <desc>: ", styleText);
+        return null;
+    }
+};
+
+function setLabel(props){
+    var labelAttribute = "<h1>" + props[expressed] + "</h1><b>" + expressed + "</b>";
+
+    var infolabel = d3.select("body")
+        .append("div")
+        .attr("class", "infolabel")
+        .attr("id", props.name + "_label")
+        .html(labelAttribute);
+
+    infolabel.append("div")
+        .attr("class", "labelname")
+        .html(props.name);
+}
+
+// Move label with mouse
+function moveLabel(){
+    var labelWidth = d3.select(".infolabel")
+        .node()
+        .getBoundingClientRect()
+        .width;
+
+    var x1 = event.clientX + 10,
+        y1 = event.clientY - 75,
+        x2 = event.clientX - labelWidth - 10,
+        y2 = event.clientY + 25;
+
+    var x = event.clientX > window.innerWidth - labelWidth - 20 ? x2 : x1; 
+    var y = event.clientY < 75 ? y2 : y1; 
+
+    d3.select(".infolabel")
+        .style("left", x + "px")
+        .style("top", y + "px");
+};
+
 
 // Pie chart and visited list
-//I did a pie chart because the other data that was there was just not interesting and I took time to add visited parks to my csv anyway
-//I also have never done a pie chart so I figured it was a good practice of the SVG lesson from before but I greatly underestimated how much time it would take
 
 function setPieChart(csvData, colorScale){
 
-// Remove bar chart for the pie chart
     if(barChart){
         barChart.remove();
         barChart = null;
@@ -272,8 +381,6 @@ function setPieChart(csvData, colorScale){
 
     var g = pieChart.append("g")
         .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-// Count visited vs not visited
 
     var counts = {
         "Visited": csvData.filter(d => d.Visited === "Y").length,
@@ -301,8 +408,6 @@ function setPieChart(csvData, colorScale){
             else return colorScale(null);
         });
 
-// Add labels inside pie chart
-
     arcs.append("text")
         .attr("transform", function(d){ return "translate(" + arc.centroid(d) + ")"; })
         .attr("text-anchor", "middle")
@@ -310,15 +415,6 @@ function setPieChart(csvData, colorScale){
         .attr("fill", "white")
         .text(function(d){ return d.data.key + " (" + d.data.value + ")"; });
 
-/*  pie chart title
-    pieChart.append("text")
-        .attr("x", width / 2)
-        .attr("y", 20)
-        .attr("text-anchor", "middle")
-        .attr("font-size", "18px")
-        .text("Visited Parks"); */
-
-    // Create or update visited parks list container
     if(!visitedList){
         visitedList = d3.select("body")
             .append("div")
@@ -344,7 +440,6 @@ function setPieChart(csvData, colorScale){
         .style("margin", "2px 0")
         .text(d => d.name);
 }
-
 
 //Dropdown
 
@@ -376,11 +471,9 @@ function changeAttribute(attribute, csvData){
 
     if(expressed === "scalerank"){
 
-// Show bar chart, hide pie chart
         if(pieChart) pieChart.style("display", "none");
         if(visitedList) visitedList.style("display", "none");
 
-//Hide pie chart and show bar chart
         if(!barChart){
             barChart = setChart(csvData, colorScale);
         } else {
@@ -389,7 +482,7 @@ function changeAttribute(attribute, csvData){
 
         yScale.domain([0, d3.max(csvData, function(d) { return parseFloat(d[expressed]); })]);
 
-        d3.selectAll(".regions")
+        d3.selectAll(".regions").raise()
             .transition()
             .duration(1000)
             .style("fill", function(d){
@@ -404,7 +497,6 @@ function changeAttribute(attribute, csvData){
 
     } else if(expressed === "Visited"){
 
-// Hide bar chart and show the show pie chart if I don't place it twice it won't cycle through??? 
         if(barChart) barChart.style("display", "none");
 
         if(!pieChart){
@@ -414,7 +506,7 @@ function changeAttribute(attribute, csvData){
             visitedList.style("display", "block");
         }
 
-        d3.selectAll(".regions")
+        d3.selectAll(".regions").raise()
             .transition()
             .duration(1000)
             .style("fill", function(d){
@@ -423,9 +515,6 @@ function changeAttribute(attribute, csvData){
             });
     }
 }
-
-
-//Update the bar chart on changing of attribute
 
 function updateChart(bars, n, colorScale){
     bars.attr("x", function(d, i){
