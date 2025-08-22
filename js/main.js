@@ -1,5 +1,7 @@
 (function(){
 
+// sounny: main entry point for map and chart initialization
+
 //Pseudo-global variables
 
 //My data only really has 2 attributes
