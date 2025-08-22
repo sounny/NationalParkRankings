@@ -1,4 +1,5 @@
 //This is what makes the script run when the window/site is loaded
+// sounny: demo bubble chart showcasing population differences
 window.onload = function(){
 
   //SVG dimension variables
