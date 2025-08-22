@@ -7,5 +7,3 @@ This project visualizes and ranks national parks using interactive maps and data
 - Leaflet
 - JavaScript
 
-## Running the Project
-Open `index.html` in your web browser. For best results, serve the files with a static file server.
